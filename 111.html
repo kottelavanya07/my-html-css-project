@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pet Adoption Center</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .search-box {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .filters {
+            margin-bottom: 30px;
+        }
+        .filters label {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .pet-card {
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 0 5px #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .pet-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+        .pet-details h3 {
+            margin: 0 0 8px 0;
+        }
+        .pet-details p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Pet Adoption Center</h1>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search pets by name or breed..." />
+    </div>
+
+    <div class="filters">
+        <label for="typeFilter">Pet Type:</label>
+        <select id="typeFilter">
+            <option value="all">All</option>
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+            <option value="rabbit">Rabbit</option>
+        </select>
+
+        <label for="ageFilter" style="margin-left:20px;">Age:</label>
+        <select id="ageFilter">
+            <option value="all">All</option>
+            <option value="baby">Baby</option>
+            <option value="young">Young</option>
+            <option value="adult">Adult</option>
+            <option value="senior">Senior</option>
+        </select>
+    </div>
+
+    <div id="petsContainer">
+
+        <div class="pet-card" data-name="Buddy" data-breed="Golden Retriever" data-type="dog" data-age="young">
+            <img src="https://placedog.net/400/400?id=1" alt="Buddy"/>
+            <div class="pet-details">
+                <h3>Buddy</h3>
+                <p><strong>Breed:</strong> Golden Retriever</p>
+                <p><strong>Age:</strong> Young</p>
+                <p>Friendly and playful dog looking for a loving home.</p>
+            </div>
+        </div>
+
+        <div class="pet-card" data-name="Mittens" data-breed="Siamese" data-type="cat" data-age="adult">
+            <img src="https://cataas.com/cat/says/Mittens" alt="Mittens" />
+            <div class="pet-details">
+                <h3>Mittens</h3>
+                <p><strong>Breed:</strong> Siamese</p>
+                <p><strong>Age:</strong> Adult</p>
+                <p>Sociable and affectionate cat who enjoys quiet environments.</p>
+            </div>
+        </div>
+
+        <div class="pet-card" data-name="Thumper" data-breed="Dutch" data-type="rabbit" data-age="baby">
+            <img src="https://placebear.com/400/400" alt="Thumper" />
+            <div class="pet-details">
+                <h3>Thumper</h3>
+                <p><strong>Breed:</strong> Dutch</p>
+                <p><strong>Age:</strong> Baby</p>
+                <p>Cute and energetic bunny ready for cuddles.</p>
+            </div>
+        </div>
+
+        <!-- Add more pet cards here if you want -->
+
+    </div>
+<!-- Adoption Enquiry Form Container -->
+<div class="adoption-form">
+
+  <!-- Main Form Heading -->
+  <h2>Adoption Enquiry Form</h2>
+
+  <!-- Sub-heading or instruction -->
+  <h3>Fill Your Details</h3>
+
+  <form id="adoptionForm">
+
+    <!-- Your Name Label -->
+    <label for="name">Your Name:</label>
+    <br />
+    <!-- Your Name Input -->
+    <input type="text" id="name" name="name" required />
+    <br /><br />
+
+    <!-- Your Email Label -->
+    <label for="email">Your Email:</label>
+    <br />
+    <!-- Your Email Input -->
+    <input type="email" id="email" name="email" required />
+    <br /><br />
+
+    <!-- Select Pet Label -->
+    <label for="pet">Select Pet:</label>
+    <br />
+    <!-- Select Pet Dropdown -->
+    <select id="pet" name="pet" required>
+      <option value="" disabled selected>Select a pet</option>
+      <option value="Buddy">Buddy</option>
+      <option value="Mittens">Mittens</option>
+      <option value="Thumper">Thumper</option>
+      <!-- Add more options if needed -->
+    </select>
+    <br /><br />
+
+    <!-- Your Message Label -->
+    <label for="message">Message:</label>
+    <br />
+    <!-- Your Message Textarea -->
+    <textarea id="message" name="message" rows="4" placeholder="Write your message here..." required></textarea>
+    <br /><br />
+
+    <!-- Submit Button -->
+    <button type="submit">Submit Enquiry</button>
+
+  </form>
+
+  <!-- Success message div -->
+  <div id="formMessage" class="success-message" style="display:none;"></div>
+
+</div>
+
+<script>
+  // Simple form submission handling (no backend)
+  document.getElementById('adoptionForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formMessage = document.getElementById('formMessage');
+    formMessage.textContent = 'Thank you for your enquiry! We will contact you soon.';
+    formMessage.style.display = 'block';
+    this.reset();
+  });
+</script>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const typeFilter = document.getElementById('typeFilter');
+        const ageFilter = document.getElementById('ageFilter');
+        const petsContainer = document.getElementById('petsContainer');
+        const petCards = petsContainer.getElementsByClassName('pet-card');
+
+        function filterPets() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedType = typeFilter.value;
+            const selectedAge = ageFilter.value;
+
+            for (let pet of petCards) {
+                const name = pet.getAttribute('data-name').toLowerCase();
+                const breed = pet.getAttribute('data-breed').toLowerCase();
+                const type = pet.getAttribute('data-type');
+                const age = pet.getAttribute('data-age');
+
+                const matchesSearch = name.includes(searchTerm) || breed.includes(searchTerm);
+                const matchesType = selectedType === 'all' || type === selectedType;
+                const matchesAge = selectedAge === 'all' || age === selectedAge;
+
+                if (matchesSearch && matchesType && matchesAge) {
+                    pet.style.display = 'flex';
+                } else {
+                    pet.style.display = 'none';
+                }
+            }
+        }
+
+        searchInput.addEventListener('input', filterPets);
+        typeFilter.addEventListener('change', filterPets);
+        ageFilter.addEventListener('change', filterPets);
+
+        // Show all pets initially
+        filterPets();
+    </script>
+</body>
+</html>
